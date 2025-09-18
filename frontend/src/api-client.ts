@@ -162,7 +162,7 @@ export const searchHotels = async (searchParams : Searchparams): Promise<HotelSe
     queryParams.append("maxPrice", searchParams.maxPrice || "");
     queryParams.append("sortOption", searchParams.sortOption || "");
 
-    searchParams.facilities?.forEach((facility)=> queryParams.append("facilites", facility));
+    searchParams.facilities?.forEach((facility)=> queryParams.append("facilities", facility));
     searchParams.types?.forEach((type)=> queryParams.append("types", type));
     searchParams.stars?.forEach((star)=> queryParams.append("stars", star));
 
