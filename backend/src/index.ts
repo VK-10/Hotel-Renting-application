@@ -31,7 +31,12 @@ app.use(cookieParser());
 app.use((req, res, next) => {
   res.setHeader(
     "Content-Security-Policy",
-    "default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com;"
+    "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://js.stripe.com; " +
+    "font-src 'self' data: https://fonts.gstatic.com; " +
+    "script-src 'self' 'unsafe-inline' 'unsafe-eval' https://js.stripe.com; " +
+    "frame-src https://js.stripe.com; " +
+    "connect-src 'self' https://api.stripe.com;"
   );
   next();
 });
