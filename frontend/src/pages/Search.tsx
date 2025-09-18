@@ -7,6 +7,7 @@ import StarRatingFilter from "../components/StarRatingFilter";
 import HotelTypesFilter from "../components/HotelTypesFilter";
 import FacilitiesFilter from "../components/FacilitiesFilter";
 import PriceFilter from "../components/PriceFilter";
+import SearchResultsCard from "../components/SearchResultsCard";
 
 const Search = () => {
     const search = useSearchContext();
@@ -52,7 +53,7 @@ const Search = () => {
         setSelectedHotelTypes((prevHotelType)=>
         event.target.checked ? [...prevHotelType, hotelType]
         :
-        prevHotelType.filter((hoteltype) => hoteltype !== starRating)
+        prevHotelType.filter((hotel) => hotel !== hotelType)
     );
     }
 
@@ -77,7 +78,7 @@ const Search = () => {
                     <StarRatingFilter  selectedStars={selectedStars} onChange = {handleStarsChange}
                     />
                     <HotelTypesFilter selectedHotelTypes={selectedHotelTypes} onChange={handleHotelTypeChange}/>
-                    <FacilitiesFilter selectedFacilitites={selectedFacilities} onChange={handleFacilitiesChange}/>
+                    <FacilitiesFilter selectedFacilities={selectedFacilities} onChange={handleFacilitiesChange}/>
                     <PriceFilter selectedPrice={selectedPrice} onChange={(value?:number)=> setSelectedPrice(value)}/>
                     
                 </div>
