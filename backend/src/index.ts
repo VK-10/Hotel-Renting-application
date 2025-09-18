@@ -28,6 +28,14 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)
 const app = express();
 app.use(cookieParser());
 
+app.use((req, res, next) => {
+  res.setHeader(
+    "Content-Security-Policy",
+    "default-src 'self'; style-src 'self' https://fonts.googleapis.com; font-src 'self' data: https://fonts.gstatic.com;"
+  );
+  next();
+});
+
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true}))
