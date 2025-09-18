@@ -43,7 +43,8 @@ app.use("/api/myHotels", myHotelRoutes)
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/my-bookings", bookingRoutes)
 
-app.listen(7000, ()=> {
+const PORT =  process.env.PORT || 7000;
+app.listen(PORT, ()=> {
     console.log("server running on localhost:7000")
 })
 
