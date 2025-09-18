@@ -5,6 +5,7 @@ import FacilitesSection from "./FacilititesSection";
 import ImageSection from "./ImageSection";
 import type { HotelType } from "../../../../backend/src/shared/type";
 import { useEffect } from "react";
+import GuestSection from "./GuestSection";
 
 export type HotelFormData = {
     name: string;
@@ -47,12 +48,12 @@ const ManageHotelForm = ({onSave, isLoading, hotel}: Props) => {
         formData.append("description",formDataJson.description)
         formData.append("type",formDataJson.type)
         formData.append("pricePerNight",formDataJson.pricePerNight.toString())
-        formData.append("startRating",formDataJson.starRating.toString())
+        formData.append("starRating",formDataJson.starRating.toString())
         formData.append("adultCount",formDataJson.adultCount.toString())
         formData.append("childCount",formDataJson.childCount.toString())
 
-        formDataJson.facilities.forEach((facility) => {
-            formData.append(`facilites[$(index)]`,facility)
+        formDataJson.facilities.forEach((facility, index) => {
+            formData.append(`facilities[${index}]`, facility);
         });
 
         if(formDataJson.imageUrls) {
@@ -73,6 +74,7 @@ const ManageHotelForm = ({onSave, isLoading, hotel}: Props) => {
             <DetailsSection/>
             <TypeSection/>
             <FacilitesSection/>
+            <GuestSection/>
             <ImageSection/>
             <span className="flex justify-end">
                 <button disabled= {isLoading} type = "submit" className="bg-blue-600 text-white p-2 font-bold hover:bg-blue-500 text-xl disabled:bg-gray-500">

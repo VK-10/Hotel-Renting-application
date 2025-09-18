@@ -19,9 +19,9 @@ const MyHotels = () => {
         console.error("Error fetching hotels:", error);
     }
 
-    const hotels = hotelData as HotelType[] | undefined;
+    // const hotels = hotelData ?? [] as HotelType[] | undefined;
 
-if (!hotels || hotels.length === 0) {
+if (!hotelData) {
     return <span>No Hotels found</span>
 }
 
@@ -37,7 +37,7 @@ if (!hotels || hotels.length === 0) {
                 </Link>
             </span>
             <div className="grid grid-cols-1 gap-8">
-                {hotels.map((hotel) => (
+                {hotelData.map((hotel) => (
                     <div key={hotel._id} className="flex flex-col justify-between border border-slate-300 rounded-lg p-8 gap-5">
                         <h2 className="text-2xl font-bold">{hotel.name}</h2>
                         <div className="whitespace-pre-line">{hotel.description}</div>

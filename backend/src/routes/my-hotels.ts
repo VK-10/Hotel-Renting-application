@@ -32,6 +32,7 @@ router.post("/", verifytoken, [
         const imageFiles = req.files as Express.Multer.File[];
         const newHotel: HotelType = req.body;
         const imageUrls = await uploadImages(imageFiles);
+
         newHotel.imageUrls = imageUrls;
         newHotel.lastUpdated = new Date();
         newHotel.userId = req.userId;
@@ -106,10 +107,12 @@ async function uploadImages(imageFiles: Express.Multer.File[]) {
         const b64 = Buffer.from(image.buffer).toString('base64');
         let dataURI = "data:" + image.mimetype + ";base64," + b64;
         const res = await cloudinary.v2.uploader.upload(dataURI);
-        return res.URL;
+        return res.secure_url;
     });
 
     const imageUrls = await Promise.all(uploadPromises);
+    console.log(imageUrls)
+
     return imageUrls;
 }
 

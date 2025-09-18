@@ -4,7 +4,7 @@ import 'dotenv/config'
 import mongoose from 'mongoose'
 import userRoutes from './routes/users.js'
 import authRoutes from "./routes/auth.js"
-import myHotelRoutes from './routes/myHotels.js'
+import myHotelRoutes from './routes/my-hotels.js'
 import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from 'cloudinary'
 import hotelRoutes from './routes/hotels.js'
@@ -47,7 +47,7 @@ app.use(cors({
 
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
-app.use("/api/myHotels", myHotelRoutes)
+app.use("/api/my-hotels", myHotelRoutes)
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/my-bookings", bookingRoutes)
 
