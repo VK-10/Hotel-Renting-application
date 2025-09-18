@@ -25,8 +25,8 @@ const FacilitesSection = () => {
                     </label>
                 ))}
             </div>
-            {errors.facilities && (
-                <span className="text-red-500 text-sm font-bold">{errors.type.message}</span>
+            {errors.facilities?.message && (
+                <span className="text-red-500 text-sm font-bold">{errors.facilities.message}</span>
 
             )}
         </div>
