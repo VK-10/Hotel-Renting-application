@@ -20,6 +20,7 @@ export const fetchCurrentUser = async (): Promise<UserType> => {
     return response.json();
 
 }
+
 export const register = async (formData: RegisterFormData) => {
     const response = await fetch(`${API_BASE_URL}/api/users/register`, {
         method: 'POST' ,
@@ -107,7 +108,7 @@ export const fetchMyHotels = async (): Promise<HotelType[]> => {
 }
 
 export const fetchMyHotelById = async (hotelId: string): Promise<HotelType>=> {
-    const response = await fetch(`${API_BASE_URL}/api/myHotels/${hotelId}`,{
+    const response = await fetch(`${API_BASE_URL}/api/my-hotels/${hotelId}`,{
         credentials: "include"
     });
 
@@ -119,7 +120,7 @@ export const fetchMyHotelById = async (hotelId: string): Promise<HotelType>=> {
 };
 
 export const updateMyHotelById = async (hotelFormData: FormData) => {
-    const response = await fetch(`${API_BASE_URL}/api/myHotel/${hotelFormData.get("hotelId")}`,
+    const response = await fetch(`${API_BASE_URL}/api/my-hotels/${hotelFormData.get("hotelId")}`,
 {
     method : "PUT",
     body: hotelFormData,
@@ -152,10 +153,10 @@ export type Searchparams = {
 export const searchHotels = async (searchParams : Searchparams): Promise<HotelSearchResponse>=> {
     const queryParams = new URLSearchParams();
     queryParams.append("destination", searchParams.destination || "");
-    queryParams.append("checkIn", searchParams.destination || "");
-    queryParams.append("checkOut", searchParams.destination || "");
-    queryParams.append("adultCount", searchParams.destination || "");
-    queryParams.append("childCount", searchParams.destination || "");
+    queryParams.append("checkIn", searchParams.checkIn || "");
+    queryParams.append("checkOut", searchParams.checkOut || "");
+    queryParams.append("adultCount", searchParams.adultCount || "");
+    queryParams.append("childCount", searchParams.childCount || "");
     queryParams.append("page", searchParams.page || "");
 
     queryParams.append("maxPrice", searchParams.maxPrice || "");
@@ -196,13 +197,13 @@ export const fetchHotelById = async(hotelId: string) : Promise<HotelType> => {
 };
 
 
-export const createPaymentIntent = async (hotelId: string, numberOfNights: string): Promise<PaymentIntentResponse> => {
+export const createPaymentIntent = async (hotelId: string, numberOfNights: number): Promise<PaymentIntentResponse> => {
     const response = await fetch(`${API_BASE_URL}/api/hotels/${hotelId}/bookings/payment-intent`,{
         credentials : "include",
         method: "POST",
         body:JSON.stringify({numberOfNights}),
         headers: {
-            "Conntent-Type" : "application/json"
+            "Content-Type" : "application/json"
         }
     });
 

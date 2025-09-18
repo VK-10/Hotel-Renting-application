@@ -13,6 +13,7 @@ router.get("/me" , verifytoken, async (req: Request, res:Response) => {
         if(!user) {
             return res.status(400).json({ message : "user not found"});
         }
+        return res.json(user);
     } catch (error) {
         console.log(error)
         res.status(500).json({message: "something went wrong"});

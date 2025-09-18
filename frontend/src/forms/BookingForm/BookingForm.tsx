@@ -67,7 +67,7 @@ const BookingForm = ({ currentUser, paymentIntent } : Props) => {
         if(!stripe || !elements)  {
             return;
         }
-        const result = await stripe.confirmCardPayment(paymentIntent.ClientSecret, {
+        const result = await stripe.confirmCardPayment(paymentIntent.clientSecret, {
             payment_method : {
                 card: elements.getElement(CardElement) as StripeCardElement,
             }
@@ -136,7 +136,6 @@ const BookingForm = ({ currentUser, paymentIntent } : Props) => {
                 disabled = {isPending}
                 >
                     {isPending ? "Saving...": "Confirm Booking"}
-                    Confirm Booking
                 </button>
 
             </div>

@@ -13,52 +13,83 @@ const Booking = () => {
     const search = useSearchContext();
     const {hotelId} = useParams();
 
-    const [numberOfNights , setNumberOfNIghts] = useState<number>(0);
+    const [numberOfNights , setNumberOfNights] = useState(0);
 
     useEffect(()=> {
         if(search.checkIn && search.checkOut) {
             const nights  = Math.abs(search.checkOut.getTime() - search.checkIn.getTime()) / (1000 * 60 * 60 * 24);
 
-            setNumberOfNIghts(Math.ceil(nights))
+            setNumberOfNights(Math.ceil(nights))
         }
     }, [search.checkIn, search.checkOut])
 
-
-    const {data: paymentIntentData} = useQuery({
-        queryKey : ["createPaymentIntent"],
-        queryFn : () => apiClient.createPaymentIntent(hotelId as string, numberOfNights.toString()),
-        enabled : !! hotelId && numberOfNights > 0,
-    })
-
+//     useEffect(() => {
+//   if (numberOfNights) {
+//     createPaymentIntent(hotelId, numberOfNights).then(setPaymentIntentData);
+//   }
+// }, [numberOfNights]);
 
     const {data: hotel } = useQuery({
         queryKey : ["fetchHotelById", hotelId],
         queryFn : () => apiClient.fetchHotelById(hotelId as string),
         enabled : !!hotelId
     })
+
+
+    const {data: paymentIntentData} = useQuery({
+        queryKey : ["createPaymentIntent", hotelId, numberOfNights],
+        queryFn : () => apiClient.createPaymentIntent(hotelId as string, numberOfNights),
+        enabled : !! hotelId && numberOfNights > 0,
+    })
+    
     const { data : currentUser} = useQuery({
         queryKey : ["fetchCurrentUser"],
         queryFn : apiClient.fetchCurrentUser
     });
+    console.log({ numberOfNights, paymentIntentData });
 
-    if(!hotel) {
-        return <></>;
-    }
     
-    return (<div className="grid md:grid-cols-[1fr_2fr]">
-        <BookingDetailSummary checkIn = {search.checkIn} checkOut = {search.checkOut} adultCount = {search.adultCount} childCount={search.childCount} numberOfNights = {numberOfNights} hotel = {hotel}/>
-        {currentUser && paymentIntentData
-         && ( 
-            <Elements stripe= {stripePromise} options = {{
-                clientSecret : paymentIntentData.ClientSecret,
-            }}>
-                <BookingForm currentUser = {currentUser}  
-                paymentIntent = {paymentIntentData}/>
-            </Elements>
-         )}
+    
+//     if (!hotel || !currentUser || numberOfNights === null) {
+//     return <div>Loading booking details...</div>;
+//   }
+    
+console.log("Render conditions:", {
+  currentUser,
+  numberOfNights,
+  paymentIntentData,
+});
+    return (
+  <div className="grid md:grid-cols-[1fr_2fr] gap-4">
+    {hotel ? (
+      <BookingDetailSummary
+        checkIn={search.checkIn}
+        checkOut={search.checkOut}
+        adultCount={search.adultCount}
+        childCount={search.childCount}
+        numberOfNights={numberOfNights ?? 0}
+        hotel={hotel}
+      />
+    ) : (
+      <div>Loading hotel details...</div>
+    )}
+
+    {currentUser && numberOfNights > 0 && paymentIntentData ? (
+      <Elements
+        stripe={stripePromise}
+        options={{ clientSecret: paymentIntentData.clientSecret }}
+      >
+        <BookingForm currentUser={currentUser} paymentIntent={paymentIntentData} />
+      </Elements>
+    ) : (
         
-       
-    </div>)
-}
+      <div>Loading booking form...</div>
+      
+    )}
+  </div>
+);
+
+
+};
 
 export default Booking;
