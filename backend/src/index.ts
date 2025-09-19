@@ -61,6 +61,20 @@ app.use(cors({
 })
 );
 
+app.get("/", (req: Request, res: Response) => {
+  res.json({ 
+    message: "Hotel Booking API is running!", 
+    status: "success",
+    endpoints: [
+      "/api/auth",
+      "/api/users", 
+      "/api/hotels",
+      "/api/my-hotels",
+      "/api/my-bookings"
+    ]
+  });
+});
+
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/my-hotels", myHotelRoutes)
