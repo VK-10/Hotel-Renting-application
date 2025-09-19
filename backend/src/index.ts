@@ -9,6 +9,7 @@ import cookieParser from "cookie-parser";
 import { v2 as cloudinary } from 'cloudinary'
 import hotelRoutes from './routes/hotels.js'
 import bookingRoutes from './routes/my-bookings.js'
+import path from 'path'
 
 cloudinary.config({
   cloud_name: process.env.CLOUDINARY_ClOUD_NAME,
@@ -61,25 +62,17 @@ app.use(cors({
 })
 );
 
-app.get("/", (req: Request, res: Response) => {
-  res.json({ 
-    message: "Hotel Booking API is running!", 
-    status: "success",
-    endpoints: [
-      "/api/auth",
-      "/api/users", 
-      "/api/hotels",
-      "/api/my-hotels",
-      "/api/my-bookings"
-    ]
-  });
-});
+app.use(express.static(path.join(__dirname, "../../frontend/dist")));
 
 app.use("/api/auth", authRoutes)
 app.use("/api/users", userRoutes)
 app.use("/api/my-hotels", myHotelRoutes)
 app.use("/api/hotels", hotelRoutes);
 app.use("/api/my-bookings", bookingRoutes)
+
+app.get("*", (req: Request, res: Response) => {
+  res.sendFile(path.join(__dirname, "../../frontend/dist/index.html"));
+});
 
 const PORT =  process.env.PORT || 7000;
 app.listen(PORT, ()=> {
