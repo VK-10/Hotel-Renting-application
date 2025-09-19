@@ -28,29 +28,29 @@ mongoose.connect(process.env.MONGODB_CONNECTION_STRING as string)
 const app = express();
 app.use(cookieParser());
 
-app.use((req, res, next) => {
-  if (process.env.NODE_ENV === "production") {
-    // More permissive CSP for production
-    res.setHeader(
-      "Content-Security-Policy",
-      "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; " +
-      "style-src * 'unsafe-inline'; " +
-      "font-src * data:; " +
-      "script-src * 'unsafe-inline' 'unsafe-eval'; " +
-      "frame-src *; " +
-      "connect-src *;"
-    );
-  } else {
-    // Stricter CSP for development (optional)
-    res.setHeader(
-      "Content-Security-Policy",
-      "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; " +
-      "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
-      "font-src 'self' data: https://fonts.gstatic.com;"
-    );
-  }
-  next();
-});
+// app.use((req, res, next) => {
+//   if (process.env.NODE_ENV === "production") {
+//     // More permissive CSP for production
+//     res.setHeader(
+//       "Content-Security-Policy",
+//       "default-src * 'unsafe-inline' 'unsafe-eval' data: blob:; " +
+//       "style-src * 'unsafe-inline'; " +
+//       "font-src * data:; " +
+//       "script-src * 'unsafe-inline' 'unsafe-eval'; " +
+//       "frame-src *; " +
+//       "connect-src *;"
+//     );
+//   } else {
+//     // Stricter CSP for development (optional)
+//     res.setHeader(
+//       "Content-Security-Policy",
+//       "default-src 'self' 'unsafe-inline' 'unsafe-eval' data: https:; " +
+//       "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; " +
+//       "font-src 'self' data: https://fonts.gstatic.com;"
+//     );
+//   }
+//   next();
+// });
 
 
 app.use(express.json())
